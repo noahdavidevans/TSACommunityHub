@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery • Community Resource Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+  <script defer src="https://unpkg.com/alpinejs@3.13.1/dist/cdn.min.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-wrap">
+      <div class="branding">
+        <h1>Community Resource Hub</h1>
+        <p class="subtitle">Gallery of programs, events, and partners</p>
+      </div>
+      <nav class="header-actions">
+        <div class="select-wrap">
+          <select id="communitySelect" class="modern" aria-label="Select community">
+            <option value="">All Communities</option>
+          </select>
+        </div>
+        <a href="index.html#directory" class="btn">Resources</a>
+        <a href="communities.html" class="btn">Communities</a>
+        <a href="about.html" class="btn">About</a>
+        <a href="index.html#submit" class="btn primary">Suggest a Resource</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero site-gradient">
+      <div class="container">
+        <div class="hero-text">
+          <h2>Images & Videos</h2>
+          <p>Explore highlights from around the community.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="highlights">
+      <div class="container">
+        <div class="section-head">
+          <h3>Image Gallery</h3>
+          <p>Scenes from events and programs.</p>
+        </div>
+        <div class="card-grid" id="imageGrid"></div>
+      </div>
+    </section>
+
+    <section class="highlights">
+      <div class="container">
+        <div class="section-head">
+          <h3>Videos</h3>
+          <p>Stories of impact.</p>
+        </div>
+        <div class="card-grid" id="videoGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <div>
+        <strong>Community Resource Hub</strong>
+      </div>
+      <div class="footer-links">
+        <a href="index.html#directory">Resources</a>
+        <a href="communities.html">Communities</a>
+        <a href="about.html">About</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>try{AOS.init({once:true});}catch(e){}</script>
+  <script>
+    const images=[
+      'https://images.unsplash.com/photo-1520972759549-0b46d1dc3a47?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1515165562835-c4c8b61a1305?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1497493292307-31c376b6e479?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1533236893924-4f2bb26019ad?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1520972786215-46dc0f1958b3?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1200&auto=format&fit=crop'
+    ]
+    const videos=[
+      'https://www.youtube.com/embed/aqz-KE-bpKQ',
+      'https://www.youtube.com/embed/dQw4w9WgXcQ'
+    ]
+    const ig=document.getElementById('imageGrid')
+    ig.innerHTML=images.map(src=>`<article class="card reveal"><img class="thumb" src="${src}" alt="Community scene"></article>`).join('')
+    const vg=document.getElementById('videoGrid')
+    vg.innerHTML=videos.map(src=>`<article class="card reveal"><iframe width="100%" height="220" src="${src}" title="Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></article>`).join('')
+  </script>
+</body>
+</html>
