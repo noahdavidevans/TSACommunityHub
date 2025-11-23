@@ -1,3 +1,4 @@
+// Seed data for resources shown in the directory
 const resources = [
   {
     id: "res-1",
@@ -113,6 +114,7 @@ const resources = [
   }
 ];
 
+// Event listings shown in the Events section
 const events = [
   {
     title: "Community Wellness Fair",
@@ -133,6 +135,7 @@ const events = [
     desc: "Join volunteers to clean streets and plant trees."
   }
 ];
+// Small DOM helpers
 const qs = (s) => document.querySelector(s);
 const qsa = (s) => Array.from(document.querySelectorAll(s));
 const searchInput = qs('#searchInput');
@@ -150,12 +153,14 @@ const orgType = qs('#orgType');
 const orgNeighborhood = qs('#orgNeighborhood');
 const eventList = qs('#eventList');
 const communitySelect = qs('#communitySelect');
+// Utilities and state
 const distinct = (arr) => Array.from(new Set(arr)).sort();
 const communities = distinct(resources.map((r) => r.community));
 const communityKey = 'currentCommunity';
 const getCommunity = () => localStorage.getItem(communityKey) || '';
 const setCommunity = (v) => { localStorage.setItem(communityKey, v || ''); };
 const initSelect = (el, values) => { values.forEach((v) => { const o = document.createElement('option'); o.value = v; o.textContent = v; el.appendChild(o); }); };
+// Fill filter dropdowns and community selector
 const populateFilters = () => {
   initSelect(categorySelect, distinct(resources.map((r) => r.category)));
   initSelect(typeSelect, distinct(resources.map((r) => r.type)));
@@ -169,6 +174,7 @@ const populateFilters = () => {
     if (cur) { communitySelect.value = cur; }
   }
 };
+// Render a single resource card
 const cardHTML = (r) => {
   const tags = r.tags.map((t) => `<span class="tag">${t}</span>`).join('');
   const open = r.openNow ? 'Open now' : 'Closed';
@@ -188,10 +194,12 @@ const cardHTML = (r) => {
     </article>`
   );
 };
+// Show featured resources in the Spotlight section
 const renderHighlights = () => {
   const featured = resources.filter((r) => r.highlighted).slice(0, 3);
   highlightGrid.innerHTML = featured.map(cardHTML).join('');
 };
+// Simple text search across key resource fields
 const matchesText = (r, t) => {
   if (!t) return true;
   const s = t.toLowerCase();
@@ -205,6 +213,7 @@ const matchesText = (r, t) => {
   ].join(' ').toLowerCase();
   return hay.includes(s);
 };
+// Compute filtered resource list based on UI controls
 const applyFilters = () => {
   const text = searchInput.value.trim();
   const cat = categorySelect.value;
@@ -221,12 +230,14 @@ const applyFilters = () => {
     (com ? r.community === com : true)
   ));
 };
+// Update count and resource grid
 const renderResources = () => {
   const list = applyFilters();
   resourceCount.textContent = `${list.length} resources${getCommunity() ? ` in ${getCommunity()}` : ''}`;
   resourceGrid.innerHTML = list.map(cardHTML).join('');
   revealOnScroll();
 };
+// Render events to the page
 const renderEvents = () => {
   eventList.innerHTML = events.map((e) => (
     `<div class="event reveal" data-aos="fade-up">
@@ -238,6 +249,7 @@ const renderEvents = () => {
   )).join('');
   revealOnScroll();
 };
+// Handle Suggest a Resource form submission
 const handleSuggestSubmit = (ev) => {
   ev.preventDefault();
   const form = new FormData(suggestForm);
@@ -284,16 +296,19 @@ const handleSuggestSubmit = (ev) => {
     submitStatus.textContent = 'Submission failed. Try again.';
   }
 };
+// Persist community selection and re-render
 const setupCommunitySelector = () => {
   if (!communitySelect) return;
   communitySelect.addEventListener('change', (e) => { setCommunity(e.target.value); renderResources(); });
 };
+// IntersectionObserver to animate elements when they enter viewport
 const revealOnScroll = () => {
   const io = new IntersectionObserver((entries) => {
     entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('reveal-in'); io.unobserve(en.target); } });
   }, { threshold: .15 });
   qsa('.reveal').forEach((el) => io.observe(el));
 };
+// Wire filter change events and textarea auto-resize
 const wireEvents = () => {
   [searchInput, categorySelect, typeSelect, neighborhoodSelect, openNowToggle].forEach((el) => {
     el.addEventListener('input', renderResources);
@@ -307,6 +322,7 @@ const wireEvents = () => {
     fit();
   });
 };
+// Boot the page
 const init = () => {
   populateFilters();
   renderHighlights();
